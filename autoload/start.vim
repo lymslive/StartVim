@@ -5,38 +5,32 @@
 " Modify: 2017-03-24
 
 " run: add a more vimrc
-function! start#run(vimrc) abort "{{{
+" > a:1, stop old run
+function! start#run(vimrc, ...) abort "{{{
     if match(g:RUN_NAME, a:vimrc) != -1
         echomsg 'the vimrc already sourced: ' . a:vimrc
         return -1
     endif
 
-    let l:pVimrc = $STARTHOME . '/' . a:vimrc . '.vim'
-    if filereadable(l:pVimrc)
-        execute 'source ' . l:pVimrc
-        call add(g:RUN_NAME, a:vimrc)
-        echomsg 'now g:RUN_NAME = ' . string(g:RUN_NAME)
-        return 0
-    else
-        echoerr 'cannot source vimrc: ' . l:pVimrc
-        return -1
-    endif
-endfunction "}}}
-
-" runas: replace vimrc
-function! start#runas(vimrc) abort "{{{
-    let l:pVimrc = $STARTHOME . '/' . a:vimrc . '.vim'
+    let l:rtp = module#less#rtp#import()
+    let l:pVimrc = l:rtp.MakeFull($STARTHOME, a:vimrc, '.vim')
     if !filereadable(l:pVimrc)
         echoerr 'cannot source vimrc: ' . l:pVimrc
         return -1
     endif
 
-    for l:vimrc in g:RUN_NAME
-        call start#stop(l:vimrc)
-    endfor
+    " may stop old vimrc run
+    if a:0 > 0 && !empty(a:1)
+        for l:vimrc in g:RUN_NAME
+            call start#stop(l:vimrc)
+        endfor
+    endif
 
+    " source this vimrc run
     execute 'source ' . l:pVimrc
     call add(g:RUN_NAME, a:vimrc)
+    echomsg 'start vimrc: ' . l:pStoprc
+    echo 'now g:RUN_NAME = ' . string(g:RUN_NAME)
     return 0
 endfunction "}}}
 
@@ -45,11 +39,11 @@ function! start#stop(vimrc) abort "{{{
     let l:pStoprc = $STARTHOME . '/stop/' . a:vimrc . '.vim'
     if filereadable(l:pStoprc)
         execute 'source ' . l:pStoprc
-        echomsg 'source stop vimrc: ' . l:pStoprc
+        echomsg ' stop vimrc: ' . l:pStoprc
     endif
 endfunction "}}}
 
-" rtpadd: 
+" rtpadd: add a path(default pwd) to rtp, fix upto autoload/
 function! start#rtpadd(...) abort "{{{
     if a:0 == 0 || empty(a:1)
         let l:pDirectory = expand('%:p:h')
@@ -65,6 +59,17 @@ function! start#rtpadd(...) abort "{{{
         echoerr 'refuse to add rpt as no autoload subdirectory'
         return -1
     endif
+endfunction "}}}
+
+" rtp: 
+function! start#rtp() abort "{{{
+    let l:lpDirectory = split(&rtp, ',')
+    echo 'runtime path list: ' . len(l:lpDirectory)
+    let l:iCount = 0
+    for l:pDirectory in l:lpDirectory
+        let l:iCount += 1
+        echo l:iCount . "\t" . l:pDirectory
+    endfor
 endfunction "}}}
 
 " packadd: 
@@ -84,11 +89,16 @@ function! start#packadd(plugin) abort "{{{
         execute 'source ' . l:pPlugPrev
     endif
 
-    if exists(':packadd')
-        execute 'packadd ' . a:plugin
-    else
-        call s:_packadd(a:plugin)
-    endif
+    try
+        if exists(':packadd')
+            execute 'packadd ' . a:plugin
+        else
+            call s:_packadd(a:plugin)
+        endif
+    catch 
+        echoerr '[startvim] fail to ackadd ' . a:plugin
+        return -1
+    endtry
 
     let l:pPlugPost = $STARTHOME . '/plugin/' . l:plugin . '.vim'
     if filereadable(l:pPlugPost)
@@ -164,10 +174,13 @@ function! start#install(url) abort "{{{
         call mkdir(l:pDirOpt, 'p')
     endif
 
+    let l:cwd = getcwd()
     let l:iErr = 0
     try
         execute 'cd ' . l:pDirOpt
         execute '!git clone ' . a:url
+        execute 'helptags ' . l:repos . '/doc'
+        execute 'cd ' . l:cwd
         echomsg 'success install plugin: ' . a:url
     catch 
         echomsg 'fails install plugin: ' . a:url
