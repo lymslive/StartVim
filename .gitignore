@@ -1,5 +1,6 @@
 *.pyc
 *.swp
+*.vim.sw*
 tags
 *.bak
 core.*
