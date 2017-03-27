@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: custome complete for command
 " Create: 2017-03-23
-" Modify: 2017-03-25
+" Modify: 2017-03-27
 
 " completion for start/*.vim
 function! start#complete#vimrc(A, L, P) abort "{{{
@@ -44,13 +44,30 @@ function! start#complete#pack(A, L, P) abort "{{{
     return l:lpDirectory
 endfunction "}}}
 
+function! start#complete#packall(A, L, P) abort "{{{
+    let l:lpDirectory = start#complete#packfull(a:A . '*', 1)
+    call map(l:lpDirectory, 'fnamemodify(v:val, ":t")')
+    return l:lpDirectory
+endfunction "}}}
+
 " packfull: 
-function! start#complete#packfull(plugin) abort "{{{
+" > a:1, include star/ as well as opt/ , default only opt/
+function! start#complete#packfull(plugin, ...) abort "{{{
+    let l:bStarted = get(a:000, 0, 0)
+
     let l:rtp = module#less#rtp#import()
     let l:pDirectory = l:rtp.MakePath($PACKHOME, '*', 'opt', a:plugin)
     let l:lpDirectory = glob(l:pDirectory, '', 1)
-    if empty(l:lpDirectory)
+    if empty(l:lpDirectory) && !l:bStarted
         return []
+    endif
+
+    if l:bStarted
+        let l:pDirStart = l:rtp.MakePath($PACKHOME, '*', 'start', a:plugin)
+        let l:lpDirStart = glob(l:pDirStart, '', 1)
+        if !empty(l:lpDirStart)
+            call extend(l:lpDirectory, l:lpDirStart)
+        endif
     endif
 
     call filter(l:lpDirectory, 'isdirectory(v:val)')

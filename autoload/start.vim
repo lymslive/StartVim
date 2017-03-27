@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: start vim
 " Create: 2017-03-23
-" Modify: 2017-03-25
+" Modify: 2017-03-27
 
 " run: start a more run, find vimrc by this name
 " > a:1, stop old vimrc
@@ -114,7 +114,7 @@ endfunction "}}}
 
 " packsub: remove a rtp and possible source start/plugoff/*.vim
 function! start#packsub(plugin) abort "{{{
-    let l:lpDirectory = start#complete#packfull(a:plugin)
+    let l:lpDirectory = start#complete#packfull(a:plugin, 1)
     for l:pDirectory in l:lpDirectory
         execute 'set rtp -=' . l:pDirectory
     endfor
@@ -150,60 +150,27 @@ function! s:_packadd(plugin) abort "{{{
     endif
 endfunction "}}}
 
-" install: install plugin from github url
-" full url suach as: https://github.com/tpope/vim-scriptease
-" > a:1, whether update when plugin repos already installed
-function! start#install(url, ...) abort "{{{
-    let l:sPattern = 'https\?://github\.com/\(\w\+\)/\(\w\+\)'
-    let l:lsMatch = matchlist(a:url, l:sPattern)
-    if empty(l:lsMatch)
-        echoerr 'expect a valid full github url'
+" install: install plugin from url
+" or update it if existed adn bUpdate is ture
+function! start#install(url, bUpdate) abort "{{{
+    let l:jPlugin = start#class#plugin#new(a:url)
+    return l:jPlugin.Install(a:bUpdate)
+endfunction "}}}
+
+" update: update a existed plugin
+function! start#update(plugin) abort "{{{
+    let l:lpDirectory = start#complete#packfull(a:plugin, 1)
+    if empty(l:lpDirectory)
+        :ELOG a:plugin . ' not installed, please install from url fist'
         return -1
+    elseif len(l:lpDirectory) > 1
+        :ELOG a:plugin . ': ambiguous plugins found?'
+        return -2
     endif
 
-    let l:author = l:lsMatch[1]
-    let l:repos  = l:lsMatch[2]
-    let l:bUpdate = get(a:000, 0, 0)
-
-    let l:rtp = module#less#rtp#import()
-    let l:pPackStart = l:rtp.MakePath($PACKHOME, l:author, 'start', l:repos)
-    let l:pPackOpt = l:rtp.MakePath($PACKHOME, l:author, 'opt', l:repos)
-    if isdirectory(l:pPackStart)
-        echomsg 'plugin already install in: ' . l:pPackStart
-        if !empty(l:bUpdate)
-            execute 'cd ' . l:pPackStart
-            execute '!git pull ' . a:url
-        endif
-        return 0
-    endif
-    if isdirectory(l:pPackOpt)
-        echomsg 'plugin already install in: ' . l:pPackOpt
-        if !empty(l:bUpdate)
-            execute 'cd ' . l:pPackOpt
-            execute '!git pull ' . a:url
-        endif
-        return 0
-    endif
-
-    let l:pDirOpt = l:rtp.MakePath($PACKHOME, l:author, 'opt')
-    if !isdirectory(l:pDirOpt)
-        call mkdir(l:pDirOpt, 'p')
-    endif
-
-    let l:cwd = getcwd()
-    let l:iErr = 0
-    try
-        execute 'cd ' . l:pDirOpt
-        execute '!git clone ' . a:url
-        silent execute 'helptags ' . l:repos . '/doc'
-        execute 'cd ' . l:cwd
-        echomsg 'success install plugin: ' . a:url
-    catch 
-        echomsg 'fails install plugin: ' . a:url
-        let l:iErr = -1
-    endtry
-
-    return l:iErr
+    let l:pDirectory = l:lpDirectory[0]
+    let l:jPlugin = start#class#plugin#new(l:pDirectory)
+    return l:jPlugin.Update()
 endfunction "}}}
 
 " test: 
