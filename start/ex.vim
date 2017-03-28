@@ -1,0 +1,3 @@
+set noloadplugins
+set nocompatible
+
