@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: start vim
 " Create: 2017-03-23
-" Modify: 2017-03-27
+" Modify: 2017-03-28
 
 " run: start a more run, find vimrc by this name
 " > a:1, stop old vimrc
@@ -151,10 +151,19 @@ function! s:_packadd(plugin) abort "{{{
 endfunction "}}}
 
 " install: install plugin from url
-" or update it if existed adn bUpdate is ture
+" or update it if existed and bUpdate is ture
+" append new plugin entry to g:PLUGIN_LIST
 function! start#install(url, bUpdate) abort "{{{
     let l:jPlugin = start#class#plugin#new(a:url)
-    return l:jPlugin.Install(a:bUpdate)
+    let l:pInstall = l:jPlugin.FindInstalled()
+    let l:iErr = l:jPlugin.Install(a:bUpdate)
+    if l:iErr == 0 && empty(l:pInstall)
+        if exists('g:PLUGIN_LIST') && filewritable(g:PLUGIN_LIST)
+            let l:sNewEntry = ['+ ' . a:url]
+            call writefile(l:sNewEntry, g:PLUGIN_LIST, 'a')
+        endif
+    endif
+    return l:iErr
 endfunction "}}}
 
 " update: update a existed plugin

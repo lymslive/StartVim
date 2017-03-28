@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: object to describe a plugin
 " Create: 2017-03-27
-" Modify: 2017-03-27
+" Modify: 2017-03-28
 
 "LOAD:
 if exists('s:load') && !exists('g:DEBUG')
@@ -16,7 +16,7 @@ if !exists('$UNPACKHOME')
     let $UNPACKHOME = expand('~/.vim/unpack')
 endif
 
-let s:url_pattern = 'https\?://github\.com/\(\w\+\)/\(\w\+\)'
+let s:url_pattern = 'https\?://github\.com/\([^/ ]\+\)/\([^/ ]\+\)'
 
 " CLASS:
 let s:class = class#old()
@@ -107,19 +107,28 @@ endfunction "}}}
 
 " Install: 
 function! s:class.Install(bUpdate) dict abort "{{{
+    let l:rtp = module#less#rtp#import()
     let l:pInstall = self.FindInstalled()
     if !empty(l:pInstall)
         if bUpdate
             let l:iErr = self.GitPull(l:pInstall)
         else
             :WLOG 'already installed, please use update: ' . self.LongName()
-            let l:iErr = 0
+            return 0
         endif
     else
         let l:pInstall = l:rtp.MakePath($PACKHOME, self.author, 'opt', self.name)
         let l:iErr = self.GitClone(l:pInstall)
         if l:iErr == 0
             let self.path = l:pInstall
+        endif
+    endif
+    if l:iErr == 0
+        let l:pDoc = l:rtp.MakePath(l:pInstall, 'doc')
+        if isdirectory(l:pDoc)
+            let l:cmd = 'helptags ' . l:pDoc
+            :LOG l:cmd
+            execute l:cmd
         endif
     endif
     return l:iErr
@@ -158,6 +167,7 @@ function! s:class.GitPull(pInstall) dict abort "{{{
     try
         execute 'cd ' . a:pInstall
         let l:cmd = 'git pull'
+        :LOG l:cmd
         call system(l:cmd)
     catch 
         :ELOG 'fails to update plugin: ' . self.LongName()
@@ -179,6 +189,7 @@ function! s:class.GitClone(pInstall) dict abort "{{{
     try
         execute 'cd ' . l:pDirectory
         let l:cmd = 'git clone ' . self.url
+        :LOG l:cmd
         call system(l:cmd)
     catch 
         :ELOG 'fails to install plugin: ' . self.LongName()

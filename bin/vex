@@ -6,6 +6,7 @@ if [ $# != 1 ]; then
 fi
 
 script=$1
+shift
 
 # it's better to use 'ex' other than 'vim'
-exec ex -S $script -c 'call input("vex done! press enter to quit ...")' -cq
+exec ex -S $script -c 'call input("vex done! press enter to quit ...")' -cq $@
