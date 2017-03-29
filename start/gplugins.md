@@ -1,5 +1,15 @@
 # plugins in github
 
++ https://github.com/lymslive/vimloo
++ https://github.com/lymslive/StartVim
++ https://github.com/lymslive/vnote
++ https://github.com/lymslive/EDvsplit
++ https://github.com/lymslive/UseTabpge
++ https://github.com/lymslive/MicroCommand
++ https://github.com/lymslive/Wrap
++ https://github.com/lymslive/qcmotion
+* https://github.com/lymslive/Spacebar
+
 + https://github.com/VundleVim/Vundle.vim
 + https://github.com/tpope/vim-surround
 + https://github.com/kshenoy/vim-signature
@@ -28,7 +38,8 @@
 + https://github.com/haya14busa/incsearch.vim
 
 + https://github.com/jiangmiao/auto-pairs
-* https://github.com/Valloric/YouCompleteMe
+- https://github.com/Valloric/YouCompleteMe
 - https://github.com/asins/vim-dict
 
 + https://github.com/iamcco/dict.vim
++ https://github.com/lvht/phpcd.vim

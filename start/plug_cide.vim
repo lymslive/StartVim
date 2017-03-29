@@ -1,47 +1,47 @@
 " plugins setting for CIDE editor
 
 " Load Plugin: {{{1
-set rtp+=$PACKHOME/lymslive/opt/StartVim
-set rtp+=$PACKHOME/lymslive/opt/vimloo
-set rtp+=$PACKHOME/lymslive/opt/EDvsplit
-set rtp+=$PACKHOME/lymslive/opt/UseTabpage
-set rtp+=$PACKHOME/lymslive/opt/qcmotion
-" set rtp+=$PACKHOME/lymslive/opt/Spacebar
-set rtp+=$PACKHOME/lymslive/opt/MicroCommand
-set rtp+=$PACKHOME/lymslive/opt/Wrap
-" set rtp+=$PACKHOME/lymslive/opt/logview
-set rtp+=$PACKHOME/lymslive/opt/vnote
+packadd StartVim
+packadd vimloo
+packadd EDvsplit
+packadd UseTabpage
+packadd qcmotion
+" packadd Spacebar
+packadd MicroCommand
+packadd Wrap
+" packadd logview
+packadd vnote
 
-" set rtp+=$PACKHOME/VundleVim/opt/Vundle.vim
-set rtp+=$PACKHOME/tpope/opt/vim-surround
-" set rtp+=$PACKHOME/kshenoy/opt/vim-signature
-set rtp+=$PACKHOME/scrooloose/opt/nerdtree
-set rtp+=$PACKHOME/majutsushi/opt/tagbar
+" packadd Vundle.vim
+packadd vim-surround
+" packadd vim-signature
+packadd nerdtree
+packadd tagbar
 
-set rtp+=$PACKHOME/SirVer/opt/ultisnips
-set rtp+=$PACKHOME/honza/opt/vim-snippets
-source $PACKHOME/SirVer/opt/ultisnips/ftdetect/UltiSnips.vim
-" set rtp+=$PACKHOME/Shougo/opt/neosnippet
-" set rtp+=$PACKHOME/Shougo/opt/neosnippet-snippets
+packadd ultisnips
+packadd vim-snippets
+" source $PACKHOME/SirVer/opt/ultisnips/ftdetect/UltiSnips.vim
+" packadd neosnippet
+" packadd neosnippet-snippets
 
-set rtp+=$PACKHOME/Shougo/opt/vimproc.vim
-" set rtp+=$PACKHOME/Shougo/opt/vimshell.vim
-set rtp+=$PACKHOME/Shougo/opt/unite.vim
-set rtp+=$PACKHOME/Shougo/opt/neoyank.vim
-" set rtp+=$PACKHOME/Shougo/opt/neomru.vim
-" set rtp+=$PACKHOME/Shougo/opt/unite-outline
-" set rtp+=$PACKHOME/Shougo/opt/unite-help
-" set rtp+=$PACKHOME/Shougo/opt/neoinclude.vim
-" set rtp+=$PACKHOME/tsukkee/opt/unite-tag
-" set rtp+=$PACKHOME/amitab/opt/vim-unite-cscope
+packadd vimproc.vim
+" packadd vimshell.vim
+packadd unite.vim
+packadd neoyank.vim
+" packadd neomru.vim
+" packadd unite-outline
+" packadd unite-help
+" packadd neoinclude.vim
+" packadd unite-tag
+" packadd vim-unite-cscope
 
-set rtp+=$PACKHOME/Shougo/opt/neocomplete.vim
-" set rtp+=$PACKHOME/Valloric/opt/YouCompleteMe
-set rtp+=$PACKHOME/Rip-Rip/opt/clang_complete
+packadd neocomplete.vim
+" packadd YouCompleteMe
+packadd clang_complete
 
-set rtp+=$PACKHOME/mileszs/opt/ack.vim
-" set rtp+=$PACKHOME/asins/opt/vim-dict
-set rtp+=$PACKHOME/haya14busa/opt/incsearch.vim
+packadd ack.vim
+" packadd vim-dict
+packadd incsearch.vim
 
 " NERDTree: {{{1
 nnoremap \f :NERDTreeToggle<CR>

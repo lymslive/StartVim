@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: $MYVIMRC: ln -s this file to ~/.vimrc
 " Create: 2017-03-21
-" Modify: 2017-03-27
+" Modify: 2017-03-29
 
 " Vital Variable: {{{1
 let $VIMHOME = $HOME . '/.vim'
@@ -21,6 +21,7 @@ let g:PLUGIN_LIST = $STARTHOME . '/gplugins.md'
 " Custom Config: {{{1
 let s:dStartAlias = {}
 let s:dStartAlias.view = 'vi'
+let s:dStartAlias.evim = 'minied'
 
 " Vimrc Tools: {{{1
 " Command: source script relative current script file

@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 if [ $# -lt 1 ]; then
-    echo "usage: vex {vim-script-file-name}"
+    echo "usage: vex {vim-script} [argment list]"
     exit 1;
 fi
 
@@ -9,4 +9,4 @@ script=$1
 shift
 
 # it's better to use 'ex' other than 'vim'
-exec ex -S $script -s -c 'qall!' $@
+exec ex -S $script -s -c 'qall!' -- $@
