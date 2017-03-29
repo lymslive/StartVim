@@ -33,12 +33,12 @@
 
 + https://github.com/tsukkee/unite-tag
 + https://github.com/amitab/vim-unite-cscope
-* https://github.com/Rip-Rip/clang_complete
+* make https://github.com/Rip-Rip/clang_complete
 + https://github.com/mileszs/ack.vim
 + https://github.com/haya14busa/incsearch.vim
 
 + https://github.com/jiangmiao/auto-pairs
-- https://github.com/Valloric/YouCompleteMe
+- make https://github.com/Valloric/YouCompleteMe
 - https://github.com/asins/vim-dict
 
 + https://github.com/iamcco/dict.vim

@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: a plugin record in plugin file
 " Create: 2017-03-28
-" Modify: 2017-03-28
+" Modify: 2017-03-29
 
 "LOAD:
 if exists('s:load') && !exists('g:DEBUG')
@@ -13,7 +13,7 @@ let s:line_pattern = '\<https\?://github\.com/\([^/ ]\+\)/\([^/ ]\+\)\s*$'
 
 let s:mark_install = '+'
 let s:mark_uninstall = '-'
-let s:mark_update = '*'
+let s:mark_noupdate = '*'
 
 " CLASS:
 let s:class = class#old()
@@ -76,7 +76,7 @@ endfunction "}}}
 
 " NeedUpate: 
 function! s:class.NeedUpate() dict abort "{{{
-    if index(self.words, s:mark_update) != -1
+    if self.NeedInstall() && index(self.words, s:mark_noupdate) == -1
         return v:true
     else
         return v:false

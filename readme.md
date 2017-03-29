@@ -1,5 +1,8 @@
 # Guide to personal vimrc with multy start name
 
++ Class gives you method, not data -- 授人以鱼，不如授人以渔
++ Vimer should use vim in vim way  -- 学而时习之
+
 ## Requirement
 
 + unix/linux system that support symbol link
@@ -71,7 +74,7 @@ $ ln -s start/main.vim vimrc
 ```
 
 5. intall the plugin list (only) for first time use
-1) Edit the plugin list:
++ Edit the plugin list:
 ```
 $ cd ~/.vim/start
 $ vim gplugins.md
@@ -81,7 +84,7 @@ $ vim gplugins.md
 Add more plugin you like. 
 To disable some plugin to install, mark the plugin url with leading `-` marker.
 
-2) Run the pulgin install script (purl VimL in ex mode)
++ Run the pulgin install script (purl VimL in ex mode)
 ```
 $ cd ../script
 $ ./install-plugins.vim
@@ -304,6 +307,9 @@ $ ./install-plugins.vim path/to/plugin-list-file
 When omit the argument, use the variable `g:PLUGIN_LIST`, witch is default set
 to `~/.vim/start/gplugins.md` in `main.vim` vimrc.
 
+When the `install-plugins.vim` is sourced in vim other than ex, only
+`g:PLUGIN_LIST` variable is used.
+
 #### Manually install plugin
 
 When you want to install plugin not from github, manually download and extract
@@ -388,6 +394,31 @@ should keep simple, and if become complex, make a separate plugin, and move to
 ## More Reference of StartVim
 
 ### Custom Commands
+
+In the `StartVim/plugin/start.vim`, define some commands and summaries here
+agian:
+
+* `:StartVim[!] {name}` search vimr by {name} and source it, if ! suffixed,
+  then firt stop all vimrc already sourced.
+* `:StopVim {vimrc}` it cannot really stop a sourced vimrc before, it only try
+  to source another vim file named `~/.vim/star/stop/{vimrc}.vim`
+
+* `:RtpShow` display the `&rtp` in a neater list way.
+* `:RtpAdd [path]` add the path (default current directory) to `&rtp`, the
+  path should be fit as a runtimepath, that has a "autoload" sub-directory or
+  it already under any "autoload" sub-directory, then it will fixed up to the
+  parent path of the "autoload" directory.
+
+* `:PackAdd {plugin}` load a plugin and it's specail config as well
+* `:PackSub {plugin}` unload a plugin and it's cleaner script.
+
+* `:StartInstall[!] {url}` install a plugin by url argument, if ! suffixed,
+  update if already installed before.
+* `:StartUpdate {plugin}` update a plugin by name argument.
+
+* `:ECHO {expr}` or `:Echo {expr}` like builtin `:echo` but append to current
+  buffer. It is useful in silent ex mode script, and want to print some output
+  to stdout.
 
 ### Insight to main.vim
 

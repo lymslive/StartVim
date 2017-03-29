@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: Primary Command for StartVim
 " Create: 2017-03-24
-" Modify: 2017-03-29
+" Modify: 2017-03-30
 
 if exists('s:load') && !exists('g:DEBUG')
     finish
@@ -16,7 +16,7 @@ command! -nargs=1 -complete=customlist,start#complete#stoprc
             \ StopVim call start#stop(<f-args>)
 
 command! RtpShow call start#rtp()
-command! -nargs=1 -complete=dir
+command! -nargs=? -complete=dir
             \ RtpAdd call start#rtpadd(<f-args>)
 
 command! -nargs=1 -complete=customlist,start#complete#pack

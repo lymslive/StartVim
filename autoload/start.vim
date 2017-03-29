@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: start vim
 " Create: 2017-03-23
-" Modify: 2017-03-28
+" Modify: 2017-03-29
 
 " run: start a more run, find vimrc by this name
 " > a:1, stop old vimrc
@@ -141,7 +141,12 @@ function! s:_packadd(plugin) abort "{{{
             echomsg 'plugin already in rtp: ' . a:plugin
         else
             execute 'set rtp+=' . l:pDirectory
-            execute 'runtime! ' . l:pDirectory . '/plugin/**/*.vim'
+            let l:rtp = module#less#rtp#import()
+            let l:sGlob = l:rtp.MakePath(l:pDirectory, 'plugin', '*.vim')
+            let l:lpFile = glob(l:sGlob, '', 1)
+            for l:pFile in l:lpFile
+                execute 'source ' . l:pFile
+            endfor
         endif
         return 0
     else
