@@ -297,6 +297,11 @@ The script `install-plugins.vim` parses the plugin list file, extracting the
 plugin url, and then intall the plugin in the `pack/` sub-directory: 
 `~/.vim/pack/{author-name}/opt/{plugin-name}`.
 
+Now this script only recognize three list marks before url: ```
+* `+`: install and update this plugin
+* `*`: install but not update this plugin
+* `-`: donot install this plugin ```
+
 The plugin list file can also use other filename you like, just pass the file
 name as argument to `install-plugins.vim`:
 ```
@@ -422,8 +427,173 @@ agian:
 
 ### Insight to main.vim
 
+The special `start/main.vim` is served as the entrance of vimrc, and dispatch
+to real vimrc by start (linked vim) name.
+
+It defines the following environment variable, with default value as:
+
+* $VIMHOME = ~/.vim
+* $STARTHOME = ~/.vim/start
+* $PACKHOME = ~/.vim/pack
+
+And defines some global variable:
+
+* `g:START_NAME` is the start name, usually equal to `v:progname`.
+* `g:RUN_NAME` is a list of vimrc filename that have sourced.
+* `g:PLUGIN_LIST` is the plugin list file path, default `$STARTHOME/gplugins.md`
+
+When the start (linked vim) name is in form of `vim-*`, the prefix `vim-` is
+stripped, then save the normalized name in variable `g:START_NAME`.
+
+Also support start name alias in `main.vim`, now the default is:
+```vim
+let s:dStartAlias = {}
+let s:dStartAlias.view = 'vi'
+let s:dStartAlias.evim = 'minied'
+```
+
+That means when start `view` in shell, the `v:progname` is "view", but the
+`g:START_NAME` is "vi", then search the vimrc as normal, that will source
+`~/.vim/start/vi.vim`.
+
+You can edit `main.vim` to config more aliased start name if needed. In this
+way make more start (linked vim) name share the same vimrc, avoding copy or
+link to many vimrc files in `$STARTHOME`.
+
 ### Details on vex and svex
 
+The primary import thing is make sure `ex` is a link name to vim of the
+version you expect to ues, vim8 recommanded.
+
+#### Wrapper bash script
+
+The `vex` is only a bash script to start vim in `ex -S` mode, use the script
+file as the argument of `-S` option, some like following:
+```bash
+script=$1
+shift
+exec ex -S $script -c 'call input("vex done! press enter to quit ...")' -c 'qall!' $@
+```
+
+After execute the script, there is an extra ex command to call `input()`,
+let user stay in ex screen to check the message ouput that maybe usefull,
+waiting to press enter to quit ex finally.
+
+`vex` can also except more argument except the first script filename, the
+other argument is passing to `ex`, extra option to `ex` is also possible.
+
+The `svex` is almost same as `vex`, but run `ex` in silent mode, like:
+```bash
+script=$1
+shift
+exec ex -S $script -s -c 'qall!' -- $@
+```
+
+Since you mean to run ex script silently, `svex` silently quit after finish
+the script. Extra arugments is passed to `ex` as normal filename argument,
+that disbale other options passed to `ex`.
+
+#### Output of svex (ex -s)
+
+In `svex` or silent `ex -s` mode, any `:echo` message and event error massge
+is depressed. Only few command such as `:print` will print output to stdout.
+To handle the output of `svex` script easier, define a `:Echo` command in
+"StartVim". `:Echo` will append the message to current buffer and `:print`,
+when using in `svex` script, the message will show in stdout.
+
+Another pluign "vimloo" also provide `:LOG` comand. If execute `:LOGON -buffer`
+first, the `:LOG` command will log to current buffer, and when used in `svex`
+script, also print to stdout.
+
+The `:Echo` or/and `:LOG` command in `svex` script just for output, the
+current buffer is modified but discard by `qall!` command. So there is no need
+to pass extra filename argument pass to 'svex', and if you have pass one,
+there is no effect on that file. If you need to save the output message,
+explitly execute `:write` command alike.
+
+Normally you should only use `:Echo` to output message such as description for
+the progress when use `svex` script. If you want to "edit" file with `ex`
+script, cannot use `:Echo`, as it will mess the file buffer, and give out the
+wrong result. Please use `vim` to edit file visually. `svex` is designed to do
+something other than editing with VimL script. Of course you can use the
+function "readfile()" and "writefile()" in `svex` script to deal with text
+file indirectly. Or if you are expert on `ex` before, you may know how to
+edit file with `ex` batch script in the right way.
+
+After all, if you use a `ex` script to do some work that logically silent,
+that there is no need to use `:echo` through out the script, then there is no
+much different to use `vex` or `svex`, except that `vex` need user press a
+enter to exit `ex`.
+
+#### Make vim file executable
+
+There are several sample vim script files in `script/sample/` sub-directory.
+For example `longloop.vim` is a `vex` script: 
+```vim
+#! /usr/bin/env vex
+for i in range(1, 100)
+    echo i
+    sleep 100m
+endfor
+```
+and `silentloop.vim` is a `svex` script:
+```vim
+#! /usr/bin/env svex
+packadd StartVim
+for i in range(1, 100)
+    Echo i
+    sleep 100m
+endfor
+```
+
+The first line "#! /usr/bin/env vex" or "#! /usr/bin/env vex" tells the shell
+run `vex` or `svex` to interpret this script. After give the scritp executable
+permission with `chmod +x`, the script file can execute directly from shell.
+The "#!" line is ignored when the script is sourced in `vim`, completely
+harmless as comment.
+
+These tow script almost do the same (dummy) work that print 100 number lines.
+The `vex` script `longloop.vim` print to the message area of `ex`, while the
+`svex` script `silentloop.vim` print to stdout. `silentloop.vim` need to use
+the command `:Echo` from plugin "StartVim", so must execute `:packadd` first
+to load that plugin. (Isn't it some like the import sentence in pyhon?)
+
+Another pratical example is the `install-plugins.vim` to intall a list of
+plugins. It is also simple, as the dirty work is done in the plugin. The
+argument to `vex` script can get from "argc()" and "argv()". If the scritp
+will also be sourced directly from `vim`, it is better to check the
+`v:progname`.
+
+In the end, VimL script can work much the same way as other script, and `vim`
+sever as an interpretor of this new or old language. And more, because `svex`
+can output to stdout, pip and redirct is available too.
+
 ## Various
+
+### My ~/.vim example
+
+This repository or pluign is only a guide to vimrc, and start to use vim in
+different mode. The `~/.vim` is personal data that should fill yourself.
+My `~/.vim` is backup in: https://github.com/lymslive/dotvim 
+
+And here is a sample plugin list of mine: [gplugins.md](start/gplugins.md)
+
+### Stay along with SpaceVim
+
+If you are lazy to config vimrc youself, SpaceVim maybe a good choice:
+https://github.com/SpaceVim/SpaceVim
+
+If you want to try to use SpaceVim as along with vimrc of yourself, you can
+first "uninstall" SapceVim, but SpaceVim not really removed, it still stayed
+in `~/.SpaceVim`, and `~/.SpaceVim.d` if you have create it. Then create a 
+simple bash script call `spvim` in `~/bin` as following:
+```bash
+#! /bin/bash
+exec vim -u ~/.SpaceVim/vimrc
+```
+
+Then you can use `spvim` to start the extream heavy SpaceVim, while use `vim`
+still start you lighter vimrc. If you also follow this "StartVim", `vi` and
+`ex` etc. are all available, that start vim in a complete different way.
 
 ## Contact and Bug Report

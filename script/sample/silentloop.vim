@@ -2,5 +2,5 @@
 packadd StartVim
 for i in range(1, 100)
     Echo i
-    sleep 80m
+    sleep 100m
 endfor

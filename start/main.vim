@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: $MYVIMRC: ln -s this file to ~/.vimrc
 " Create: 2017-03-21
-" Modify: 2017-03-29
+" Modify: 2017-03-30
 
 " Vital Variable: {{{1
 let $VIMHOME = $HOME . '/.vim'
@@ -14,7 +14,6 @@ let $PACKHOME  = $VIMHOME . '/pack'
 let $UNPACKHOME  = $VIMHOME . '/unpack'
 
 let g:START_NAME = v:progname
-let g:START_VIMRC = ''
 let g:RUN_NAME = []
 let g:PLUGIN_LIST = $STARTHOME . '/gplugins.md'
 
@@ -31,7 +30,6 @@ command! -nargs=1 SOURCE execute 'source ' . expand('<sfile>:p:h') . '/' . <q-ar
 function! s:LoadVimrc(pVimrc) abort "{{{
     if !empty(a:pVimrc) && filereadable(a:pVimrc)
         execute 'source ' . a:pVimrc
-        let g:START_VIMRC = a:pVimrc
         call add(g:RUN_NAME, fnamemodify(a:pVimrc, ':p:t:r'))
         return 1
     else
