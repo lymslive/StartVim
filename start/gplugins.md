@@ -1,7 +1,7 @@
 # plugins in github
 
-+ https://github.com/lymslive/vimloo
-+ https://github.com/lymslive/StartVim
+* https://github.com/lymslive/vimloo
+* https://github.com/lymslive/StartVim
 + https://github.com/lymslive/vnote
 + https://github.com/lymslive/EDvsplit
 + https://github.com/lymslive/UseTabpge
@@ -16,7 +16,7 @@
 + https://github.com/scrooloose/nerdtree
 + https://github.com/majutsushi/tagbar
 + https://github.com/SirVer/ultisnips
-+ https://github.com/honza/vim-snippets
+* https://github.com/honza/vim-snippets
 
 + https://github.com/Shougo/vimproc.vim
 + https://github.com/Shougo/unite.vim
@@ -28,12 +28,12 @@
 + https://github.com/Shougo/unite-outline
 + https://github.com/Shougo/unite-help
 + https://github.com/Shougo/neoinclude.vim
-* https://github.com/Shougo/neosnippet
-* https://github.com/Shougo/neosnippet-snippets
++ https://github.com/Shougo/neosnippet
++ https://github.com/Shougo/neosnippet-snippets
 
 + https://github.com/tsukkee/unite-tag
 + https://github.com/amitab/vim-unite-cscope
-* make https://github.com/Rip-Rip/clang_complete
++ make https://github.com/Rip-Rip/clang_complete
 + https://github.com/mileszs/ack.vim
 + https://github.com/haya14busa/incsearch.vim
 

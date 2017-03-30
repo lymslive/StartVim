@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: VimL class frame
 " Create: 2017-03-27
-" Modify: 2017-03-28
+" Modify: 2017-03-30
 
 "LOAD:
 if exists('s:load') && !exists('g:DEBUG')
@@ -63,7 +63,11 @@ function! start#class#plugman#instance() abort "{{{
 endfunction "}}}
 
 " Install: install all plugins
-function! s:class.Install(bUpdate) dict abort "{{{
+" > a:1, bUpdate
+"        0, do not update only install
+"        1, update
+"        omit, default by plugin list mark
+function! s:class.Install(...) dict abort "{{{
     let l:ljEntry = self.fileobj.Extract()
     if empty(l:ljEntry)
         :WLOG 'no plugin list in: ' . self.filepath
@@ -74,14 +78,21 @@ function! s:class.Install(bUpdate) dict abort "{{{
     let l:idx = 0
     for l:jEntry in l:ljEntry
         let l:idx += 1
+        :LOG printf('%d/%d: %s', l:idx, l:iCount, l:url)
+
         if !l:jEntry.NeedInstall()
+            :LOG 'donot install skipped'
             continue
         endif
+
         let l:url =  l:jEntry.url
         let l:jPlugin = start#class#plugin#new(l:url)
-        :LOG printf('%d/%d: %s', l:idx, l:iCount, l:url)
-        let l:bUpdate = l:jEntry.NeedUpate()
-        call l:jPlugin.Install(a:bUpdate || l:bUpdate)
+        if a:0 > 0
+            call l:jPlugin.Install(a:1)
+        else
+            let l:bUpdate = l:jEntry.NeedUpate()
+            call l:jPlugin.Install(l:bUpdate)
+        endif
     endfor
 endfunction "}}}
 

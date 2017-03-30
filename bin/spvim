@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+exec vim --cmd "set rtp^=~/.SpaceVim" -u ~/.SpaceVim/vimrc

@@ -79,7 +79,8 @@ it is optional to copy script/ to ~/.vim
 
 3. install `vex` and `svex` to ~/bin(where should be in $PATH)
 ```bash
-$ copy bin/* ~/bin
+$ copy bin/vex ~/bin/vex
+$ copy bin/svex ~/bin/svex
 ```
 If you never care about ex mode, and prefer to other way to manage plugin,
 this step is optional.
@@ -331,8 +332,8 @@ plugin url, and then intall the plugin in the `pack/` sub-directory:
 `~/.vim/pack/{author-name}/opt/{plugin-name}`.
 
 Now this script only recognize three list marks before url: 
-* `+`: install and update this plugin
-* `*`: install but not update this plugin
+* `+`: install this plugin
+* `*`: also update this plugin
 * `-`: donot install this plugin
 
 The plugin list file can also use other filename you like, just pass the file
@@ -503,6 +504,7 @@ version you expect to ues, vim8 recommanded.
 The `vex` is only a bash script to start vim in `ex -S` mode, use the script
 file as the argument of `-S` option, some like following:
 ```bash
+#! /usr/bin/env bash
 script=$1
 shift
 exec ex -S $script -c 'call input("vex done! press enter to quit ...")' -c 'qall!' $@
@@ -517,6 +519,7 @@ other argument is passing to `ex`, extra option to `ex` is also possible.
 
 The `svex` is almost same as `vex`, but run `ex` in silent mode, like:
 ```bash
+#! /usr/bin/env bash
 script=$1
 shift
 exec ex -S $script -s -c 'qall!' -- $@
@@ -557,6 +560,10 @@ After all, if you use a `ex` script to do some work that logically silent,
 that there is no need to use `:echo` through out the script, then there is no
 much different to use `vex` or `svex`, except that `vex` need user press a
 enter to exit `ex`.
+
+Notice: `svex` or `ex -s` do not source any vimrc, but `vex` or `ex` will
+source vimrc as `vim`. So the global virable defines in `main.vim` and 
+`ex.vim` can be used in `ex` but `ex -s`.
 
 #### Make vim file executable
 
@@ -621,7 +628,7 @@ first "uninstall" SapceVim, but SpaceVim not really removed, it still stayed
 in `~/.SpaceVim`, and `~/.SpaceVim.d` if you have create it. Then create a 
 simple bash script call `spvim` in `~/bin` as following:
 ```bash
-#! /bin/bash
+#! /usr/bin/env bash
 exec vim -u ~/.SpaceVim/vimrc
 ```
 

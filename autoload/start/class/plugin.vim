@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: object to describe a plugin
 " Create: 2017-03-27
-" Modify: 2017-03-28
+" Modify: 2017-03-30
 
 "LOAD:
 if exists('s:load') && !exists('g:DEBUG')
@@ -110,7 +110,7 @@ function! s:class.Install(bUpdate) dict abort "{{{
     let l:rtp = module#less#rtp#import()
     let l:pInstall = self.FindInstalled()
     if !empty(l:pInstall)
-        if bUpdate
+        if a:bUpdate
             let l:iErr = self.GitPull(l:pInstall)
         else
             :WLOG 'already installed, please use update: ' . self.LongName()
