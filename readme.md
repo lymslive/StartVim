@@ -3,10 +3,43 @@
 + Class gives you method, not data -- 授人以鱼，不如授人以渔
 + Vimer should use vim in vim way  -- 学而时习之
 
-## Requirement
+## Table of Contents
+- [Requirement](#Requirement)
+- [Feature Summary](#Feature-Summary)
+- [Install](#Install)
+    - [Manually Install](#Manually-Install)
+    - [One-key Install ?](#One-key-Install-?)
+    - [Clone as `.vim/` ?](#Clone-as-`.vim/`-?)
+    - [Uninstall ?](#Uninstall-?)
+- [Usage](#Usage)
+    - [start vim name and start vimrc](#start-vim-name-and-start-vimrc)
+    - [Shipped start vimrc](#Shipped-start-vimrc)
+    - [How to use plugin](#How-to-use-plugin)
+        - [Principle](#Principle)
+        - [Install one plugin](#Install-one-plugin)
+        - [Install list of plugins](#Install-list-of-plugins)
+        - [Manually install plugin](#Manually-install-plugin)
+        - [Autoload plugin with filetype](#Autoload-plugin-with-filetype)
+        - [Manually load plugin with packadd/PackAdd](#Manually-load-plugin-with-packadd/PackAdd)
+        - [Lower version of vim ?](#Lower-version-of-vim-?)
+    - [Make full use of personal ~/.vim](#Make-full-use-of-personal-~/.vim)
+- [More Reference of StartVim](#More-Reference-of-StartVim)
+    - [Custom Commands](#Custom-Commands)
+    - [Insight to main.vim](#Insight-to-main.vim)
+    - [Details on vex and svex](#Details-on-vex-and-svex)
+        - [Wrapper bash script](#Wrapper-bash-script)
+        - [Output of svex (ex -s)](#Output-of-svex-(ex--s))
+        - [Make vim file executable](#Make-vim-file-executable)
+- [Various](#Various)
+    - [My ~/.vim example](#My-~/.vim-example)
+    - [Stay along with SpaceVim](#Stay-along-with-SpaceVim)
+- [Contact and Bug Report](#Contact-and-Bug-Report)
 
+## Requirement
 + unix/linux system that support symbol link
 + vim8 version that supports `:packadd`
++ Only plugin manage part require
+  [vimloo](https://github.com/lymslive/vimloo) while vimrc part not
 
 ## Feature Summary
 
@@ -30,14 +63,14 @@
 It is known what happens when installed manually.
 
 1. clone down to appropriate location:
-```
+```bash
 $ mdkir -p ~/.vim/pack/lymslive/opt
 $ cd ~/.vim/pack/lymslive/opt
 $ git clone https://github.com/lymslive/StartVim
 ```
 
 2. copy the vimrc files in start/ to ~/.vim
-```
+```bash
 $ cd StartVim
 $ cp -r start/ ~/.vim
 $ cp -r script/ ~/.vim
@@ -45,14 +78,14 @@ $ cp -r script/ ~/.vim
 it is optional to copy script/ to ~/.vim
 
 3. install `vex` and `svex` to ~/bin(where should be in $PATH)
-```
+```bash
 $ copy bin/* ~/bin
 ```
 If you never care about ex mode, and prefer to other way to manage plugin,
 this step is optional.
 
 Check whether ex is install with vim, and symbol linked to vim:
-```
+```bash
 $ which ex
 $ ls -l `which ex`
 ```
@@ -60,14 +93,14 @@ If it is not the case, make `ex` link to (the appropriate path to) `vim`.
 
 4. backup you own vimrc as self.vim, and use main.vim instead
 If you original vimr is ~/.vimrc
-```
+```bash
 $ cd ~
 $ mv .vimrc ~/.vim/start/self.vim
 $ ln -s ~/.vim/start/main.vim .vimrc
 ```
 
 If you original vimr is ~/.vim/vimrc
-```
+```bash
 $ cd ~/.vim
 $ mv vimrc ~/.vim/start/self.vim
 $ ln -s start/main.vim vimrc
@@ -75,7 +108,7 @@ $ ln -s start/main.vim vimrc
 
 5. intall the plugin list (only) for first time use
 + Edit the plugin list:
-```
+```bash
 $ cd ~/.vim/start
 $ vim gplugins.md
 <edit this file freely>
@@ -85,14 +118,14 @@ Add more plugin you like.
 To disable some plugin to install, mark the plugin url with leading `-` marker.
 
 + Run the pulgin install script (purl VimL in ex mode)
-```
+```bash
 $ cd ../script
 $ ./install-plugins.vim
 ```
 This reqires `vex` installed in step 3.
 
 Or this script can also be sourced from running vim:
-```
+```vim
 :enew
 :source ~/.vim/script/install-plugins.vim
 ```
@@ -112,7 +145,7 @@ run it.
 
 For new vimer, if you haven't make much use of `.vim/`, you can directlly
 clone this repository as `.vim/`:
-```
+```bash
 $ git clone https://github.com/lymslive/StartVim ~/.vim
 ```
 Or clone StartVim to any place, and symbol link `~/.vim` to it.
@@ -131,7 +164,7 @@ it. After all, you can still run `vim` to start your own original vimrc.
 
 But if you really want to uninstall, just to roll back the files copied to
 `~/.vim` direcotry, such as:
-```
+```bash
 $ cd ~/.vim
 $ mv start/self.vim vimrc
 $ rm -rf start/
@@ -157,7 +190,7 @@ For example, you are working on an environment relative to "foo", you want to
 use the name of "foo" to start vim in a specail case. 
 
 First create a symbol link to vim, put in `$PATH` such as `~/bin`
-```
+```bash
 $ ln -s `which vim` ~/bin/foo
 or
 $ ln -s `which vim` ~/bin/vim-foo
@@ -225,7 +258,7 @@ freely, or prefix a `self_` if you like.
 You *must* create each symbol link to vim if you want to use any of these
 vimrc. Because the location of vim may differ to each other, you should make
 the link yourself. For example:
-```
+```bash
 $ cd ~/bin
 $ ln -s `which vim` vc
 $ ln -s `which vim` vim-note
@@ -240,7 +273,7 @@ unalias vi in `.bashrc` and create vi link to vim.
 
 In many installation of vim, "ex" link is automatically created, if it is not
 so, create the link yourself:
-```
+```bash
 $ cd ~/bin
 $ ln -s `which vim` vi
 $ ln -s `which vim` ex
@@ -297,14 +330,14 @@ The script `install-plugins.vim` parses the plugin list file, extracting the
 plugin url, and then intall the plugin in the `pack/` sub-directory: 
 `~/.vim/pack/{author-name}/opt/{plugin-name}`.
 
-Now this script only recognize three list marks before url: ```
+Now this script only recognize three list marks before url: 
 * `+`: install and update this plugin
 * `*`: install but not update this plugin
-* `-`: donot install this plugin ```
+* `-`: donot install this plugin
 
 The plugin list file can also use other filename you like, just pass the file
 name as argument to `install-plugins.vim`:
-```
+```bash
 $ cd ~/.vim/script
 $ ./install-plugins.vim path/to/plugin-list-file
 ```
@@ -333,7 +366,7 @@ Plugins concerned a specific filetype(usually a language type), is better not
 attenion to avoid reload such plugin.
 
 For example, the following code can be add to `~/.vim/ftplugin/vim.vim`:
-```
+```vim
 if !exists('s:once')
     let s:once = 1
     packadd necovim.vim
@@ -547,7 +580,7 @@ endfor
 ```
 
 The first line "#! /usr/bin/env vex" or "#! /usr/bin/env vex" tells the shell
-run `vex` or `svex` to interpret this script. After give the scritp executable
+run `vex` or `svex` to interpret this script. After give the scritp execute
 permission with `chmod +x`, the script file can execute directly from shell.
 The "#!" line is ignored when the script is sourced in `vim`, completely
 harmless as comment.

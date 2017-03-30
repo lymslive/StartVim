@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: start vim
 " Create: 2017-03-23
-" Modify: 2017-03-29
+" Modify: 2017-03-30
 
 " run: start a more run, find vimrc by this name
 " > a:1, stop old vimrc
@@ -82,7 +82,7 @@ endfunction "}}}
 " in 1&3 step, strip '.vim' and '-vim' suffix in plugin name
 function! start#packadd(plugin) abort "{{{
     if a:plugin =~? '[-.]vim$'
-        let l:plugin = strpart(a:plugin, len(a:plugin) - 4)
+        let l:plugin = strpart(a:plugin, 0, len(a:plugin) - 4)
     else
         let l:plugin = a:plugin
     endif
