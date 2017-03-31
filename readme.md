@@ -38,6 +38,7 @@
 ## Requirement
 + unix/linux system that support symbol link
 + vim8 version that supports `:packadd`
++ git
 + Only plugin manage part require
   [vimloo](https://github.com/lymslive/vimloo) while vimrc part not
 
@@ -143,8 +144,21 @@ separate vim instance, batch ex mode is better.
 
 ### One-key Install ?
 
-Copy the shell commands in the last section, save to a bash shell script, and
+Copy the shell commands in the above section, save to a bash shell script, and
 run it.
+
+Such a sript is also available in: 
+[start/install/install-StartVim.sh](start/install/install-StartVim.sh)
+
+Download and run it to help you finish the first 4 steps, while the last step
+is left to manually install the plugin list youself.
+
+```bash
+$ curl -sL
+https://github.com/lymslive/StartVim/master/start/install/install-StartVim.sh | sh
+$ cd ~/.vim/start/install
+$ ./install-plugins.vim
+```
 
 ### Clone as `.vim/` ?
 
