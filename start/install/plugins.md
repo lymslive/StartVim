@@ -4,7 +4,7 @@
 * https://github.com/lymslive/StartVim
 + https://github.com/lymslive/vnote
 + https://github.com/lymslive/EDvsplit
-+ https://github.com/lymslive/UseTabpge
++ https://github.com/lymslive/UseTabpage
 + https://github.com/lymslive/MicroCommand
 + https://github.com/lymslive/Wrap
 + https://github.com/lymslive/qcmotion
