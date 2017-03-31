@@ -107,6 +107,15 @@ $ ln -s start/main.vim vimrc
 ```
 
 5. intall the plugin list (only) for first time use
+
++ The install script require vimloo
+```bash
+$ cd ~/.vim/pack/lymslive/opt
+$ git clone https://github.com/lymslive/vimloo
+```
+
+If vimloo has already installed in some `$rtp`, can skip this step.
+
 + Edit the plugin list:
 ```bash
 $ cd ~/.vim/start/install
@@ -165,7 +174,6 @@ But if you really want to uninstall, just to roll back the files copied to
 $ cd ~/.vim
 $ mv start/self.vim vimrc
 $ rm -rf start/
-$ rm -rf script/
 ```
 
 ## Usage
@@ -241,13 +249,13 @@ Your personal common vimrc "self.vim" may base on or some like "fulled.vim".
 * `vim-note.vim`: a special case using vim to edit note and dairy, mainly make
   use of my vnote plugin: https://github.com/lymslive/vnote
 
-* `ex.vim`: server for batch or ex mode of vim, `vex` and `svex` will source
+* `ex.vim`: server for batch or ex mode of vim, `vex`(but `svex` not) will source
   it. It is even fewer than `vi.vim`, because almost nothing is needed in
   batch script. If any plugin needed when write a VimL script, explict use
   `packadd plugin` at the top of that VimL script.
-* `default.vim`: I just link it to `vi.vim` now, it is meaningless, only for
+* `default.vim`: something like `fulled.vim`, only for
   the last search try by `main.vim`. Vim8 also provides a `default.vim`, you
-  may like to symbol link to it.
+  can make it symbol link to that.
 
 Since the `start/` directory is copied to `~/.vim`, you can edit these files
 freely, or prefix a `self_` if you like.
