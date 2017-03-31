@@ -73,7 +73,6 @@ $ git clone https://github.com/lymslive/StartVim
 ```bash
 $ cd StartVim
 $ cp -r start/ ~/.vim
-$ cp -r script/ ~/.vim
 ```
 it is optional to copy script/ to ~/.vim
 
@@ -110,8 +109,8 @@ $ ln -s start/main.vim vimrc
 5. intall the plugin list (only) for first time use
 + Edit the plugin list:
 ```bash
-$ cd ~/.vim/start
-$ vim gplugins.md
+$ cd ~/.vim/start/install
+$ vim plugins.md
 <edit this file freely>
 :wq
 ```
@@ -120,18 +119,14 @@ To disable some plugin to install, mark the plugin url with leading `-` marker.
 
 + Run the pulgin install script (purl VimL in ex mode)
 ```bash
-$ cd ../script
 $ ./install-plugins.vim
 ```
 This reqires `vex` installed in step 3.
 
-Or this script can also be sourced from running vim:
++ Or this script can also be sourced from running vim:
 ```vim
-:enew
-:source ~/.vim/script/install-plugins.vim
+:source ~/.vim/start/install/install-plugins.vim
 ```
-It is better to open a new buffer first, as some output message may append to
-the current buffer.
 
 The speed of plugin instllation, especially a list of plugins, is mainly
 determined by the net speed. So it is suggested to intall mutly plugins in a
@@ -149,7 +144,8 @@ clone this repository as `.vim/`:
 ```bash
 $ git clone https://github.com/lymslive/StartVim ~/.vim
 ```
-Or clone StartVim to any place, and symbol link `~/.vim` to it.
+Or clone StartVim to any place, and symbol link `~/.vim` to it. You may need
+to backup you `~/.vim` first.
 
 Then, in the vimrc files under `~/.vim/start`, there is no need to add the
 commnad `packadd StartVim`, since it is always loaded.
@@ -317,9 +313,9 @@ few command addtion:
 It may be time consuming to install "all" or many plugins once. So I provide a
 VimL script that used in separate vim instance, or better in batch ex mode.
 
-The default plugin list file is `~/.vim/start/gplugins.md`. It is simple, each
-plugin url occupis a line, any leading words are allowed, separated by space,
-but the url must be the last "word".
+The default plugin list file is `~/.vim/start/install/plugins.md`. It is
+simple, each plugin url occupis a line, any leading words are allowed,
+separated by space, but the url must be the last "word".
 
 Save the url because it is easy to retrive the plugin homepage, and save the
 file in markdown because it is further easy to click the url link when has a
@@ -339,12 +335,12 @@ Now this script only recognize three list marks before url:
 The plugin list file can also use other filename you like, just pass the file
 name as argument to `install-plugins.vim`:
 ```bash
-$ cd ~/.vim/script
+$ cd ~/.vim/start/install
 $ ./install-plugins.vim path/to/plugin-list-file
 ```
 
 When omit the argument, use the variable `g:PLUGIN_LIST`, witch is default set
-to `~/.vim/start/gplugins.md` in `main.vim` vimrc.
+to `~/.vim/start/install/plugins.md` in `main.vim` vimrc.
 
 When the `install-plugins.vim` is sourced in vim other than ex, only
 `g:PLUGIN_LIST` variable is used.
@@ -616,7 +612,8 @@ This repository or pluign is only a guide to vimrc, and start to use vim in
 different mode. The `~/.vim` is personal data that should fill yourself.
 My `~/.vim` is backup in: https://github.com/lymslive/dotvim 
 
-And here is a sample plugin list of mine: [gplugins.md](start/gplugins.md)
+And here is a sample plugin list of mine: 
+[plugins.md](start/install/plugins.md)
 
 ### Stay along with SpaceVim
 

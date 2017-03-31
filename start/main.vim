@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: $MYVIMRC: ln -s this file to ~/.vimrc
 " Create: 2017-03-21
-" Modify: 2017-03-30
+" Modify: 2017-03-31
 
 " Vital Variable: {{{1
 let $VIMHOME = $HOME . '/.vim'
@@ -15,7 +15,7 @@ let $UNPACKHOME  = $VIMHOME . '/unpack'
 
 let g:START_NAME = v:progname
 let g:RUN_NAME = []
-let g:PLUGIN_LIST = $STARTHOME . '/gplugins.md'
+let g:PLUGIN_LIST = $STARTHOME . 'install/plugins.md'
 
 " Custom Config: {{{1
 let s:dStartAlias = {}
