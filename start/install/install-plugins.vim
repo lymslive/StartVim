@@ -9,7 +9,7 @@ packadd vimloo
 packadd StartVim
 
 " the plugin list file
-let s:plugins = '~/.vim/start/gplugins.md'
+let s:plugins = 'plugins.md'
 " whether update if already installed
 let s:flag = 0
 
@@ -38,6 +38,7 @@ endif
 
 let s:jPlugMan = start#class#plugman#new(s:plugins)
 if empty(s:jPlugMan)
+    :ELOG 'Create plugman object fails'
     finish
 endif
 call s:jPlugMan.Install(s:flag)

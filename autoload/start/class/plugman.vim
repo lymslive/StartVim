@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: VimL class frame
 " Create: 2017-03-27
-" Modify: 2017-03-30
+" Modify: 2017-03-31
 
 "LOAD:
 if exists('s:load') && !exists('g:DEBUG')
@@ -78,6 +78,7 @@ function! s:class.Install(...) dict abort "{{{
     let l:idx = 0
     for l:jEntry in l:ljEntry
         let l:idx += 1
+        let l:url =  l:jEntry.url
         :LOG printf('%d/%d: %s', l:idx, l:iCount, l:url)
 
         if !l:jEntry.NeedInstall()
@@ -85,7 +86,6 @@ function! s:class.Install(...) dict abort "{{{
             continue
         endif
 
-        let l:url =  l:jEntry.url
         let l:jPlugin = start#class#plugin#new(l:url)
         if a:0 > 0
             call l:jPlugin.Install(a:1)

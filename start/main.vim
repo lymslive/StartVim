@@ -15,7 +15,7 @@ let $UNPACKHOME  = $VIMHOME . '/unpack'
 
 let g:START_NAME = v:progname
 let g:RUN_NAME = []
-let g:PLUGIN_LIST = $STARTHOME . 'install/plugins.md'
+let g:PLUGIN_LIST = $STARTHOME . '/install/plugins.md'
 
 " Custom Config: {{{1
 let s:dStartAlias = {}

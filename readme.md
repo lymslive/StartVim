@@ -64,7 +64,7 @@ It is known what happens when installed manually.
 
 1. clone down to appropriate location:
 ```bash
-$ mdkir -p ~/.vim/pack/lymslive/opt
+$ mkdir -p ~/.vim/pack/lymslive/opt
 $ cd ~/.vim/pack/lymslive/opt
 $ git clone https://github.com/lymslive/StartVim
 ```
