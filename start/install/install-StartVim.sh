@@ -41,8 +41,8 @@ if [[ ! -d ~/bin ]]; then
 fi
 
 cd ~/.vim/pack/lymslive/opt/StartVim
-copy bin/vex ~/bin/vex
-copy bin/svex ~/bin/svex
+cp bin/vex ~/bin/vex
+cp bin/svex ~/bin/svex
 
 if ! hash ex &>/dev/null; then
 	ln -s `which vim` ~/bin/ex
@@ -50,11 +50,11 @@ fi
 
 # install vimrc
 echo backup personal vimrc to start/self.vim
-if [[ -e ~/.vim/vimrc ]]; then
+if [[ -f ~/.vim/vimrc ]]; then
 	mv ~/.vim/vimrc ~/.vim/start/self.vim
 fi
 
-if [[ -e ~/.vimrc ]]; then
+if [[ -f ~/.vimrc ]]; then
 	mv ~/.vimrc ~/.vim/start/self.vim
 fi
 

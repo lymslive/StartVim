@@ -79,8 +79,8 @@ it is optional to copy script/ to ~/.vim
 
 3. install `vex` and `svex` to ~/bin(where should be in $PATH)
 ```bash
-$ copy bin/vex ~/bin/vex
-$ copy bin/svex ~/bin/svex
+$ cp bin/vex ~/bin/vex
+$ cp bin/svex ~/bin/svex
 ```
 If you never care about ex mode, and prefer to other way to manage plugin,
 this step is optional.
