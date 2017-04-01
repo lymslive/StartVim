@@ -154,8 +154,7 @@ Download and run it to help you finish the first 4 steps, while the last step
 is left to manually install the plugin list youself.
 
 ```bash
-$ curl -sL
-https://github.com/lymslive/StartVim/master/start/install/install-StartVim.sh | sh
+$ curl -sL https://github.com/lymslive/StartVim/blob/master/start/install/install-StartVim.sh | sh
 $ cd ~/.vim/start/install
 $ ./install-plugins.vim
 ```
