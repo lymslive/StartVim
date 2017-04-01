@@ -2,12 +2,17 @@
 " Author: lymslive
 " Description: a plugin doc file
 " Create: 2017-03-28
-" Modify: 2017-03-28
+" Modify: 2017-04-01
 
 "LOAD:
 if exists('s:load') && !exists('g:DEBUG')
     finish
 endif
+
+" the line pattern to mark finish
+let s:finpat_mktitle = `^\s*#\+\s*finish\s*$`
+let s:finpat_vimcommet = `^\s*"\+\s*finish\s*$`
+let s:finpat_htmcommet = `^\s*<--\s*finish\s*-->\s*$`
 
 " CLASS:
 let s:class = class#old('class#textfile')
@@ -47,6 +52,9 @@ function! s:class.Extract() dict abort "{{{
     let l:ljEntry = []
     for l:entry in l:list
         let l:line += 1
+        if l:entry =~? s:finpat_mktitle || l:entry =~? s:finpat_vimcommet || l:entry =~? s:finpat_htmcommet
+            break
+        endif
         let l:jEntry = start#class#plugentry#new(l:entry)
         if !empty(l:jEntry)
             call l:jEntry.SetLineNo(l:line)

@@ -33,6 +33,7 @@
 - [Various](#various)
     - [My ~/.vim example](#my-vim-example)
     - [Stay along with SpaceVim](#stay-along-with-spacevim)
+    - [Use other plugin manager](#use-other-plugin-manager)
 - [Contact and Bug Report](#contact-and-bug-report)
 
 ## Requirement
@@ -653,5 +654,17 @@ exec vim -u ~/.SpaceVim/vimrc
 Then you can use `spvim` to start the extream heavy SpaceVim, while use `vim`
 still start you lighter vimrc. If you also follow this "StartVim", `vi` and
 `ex` etc. are all available, that start vim in a complete different way.
+
+### Use other plugin manager
+
+You can use any other plugin manager as normal plugin. You can even use more
+than one plugin manager, in different or the same vimrc. Different plugin
+manager only manages different plugin direcotry, while the builtin `:packadd`
+manages the one in `pack/` directory.
+
+External plugin manager may have a little problem when using `ex -s`, but that
+maybe not problem for most users. It seems silly to use any plugin manager
+other than `:packadd` in `ex -s`, while it seems more silly to use `ex -s`
+other than `vim` for some people.
 
 ## Contact and Bug Report
