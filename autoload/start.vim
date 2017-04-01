@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: start vim
 " Create: 2017-03-23
-" Modify: 2017-03-30
+" Modify: 2017-04-01
 
 " run: start a more run, find vimrc by this name
 " > a:1, stop old vimrc
@@ -29,6 +29,7 @@ function! start#run(name, ...) abort "{{{
         for l:vimrc in g:RUN_NAME
             call start#stop(l:vimrc)
         endfor
+        let g:RUN_NAME = []
     endif
 
     return start#util#LoadVimrc(l:pVimrc)
@@ -38,7 +39,7 @@ endfunction "}}}
 " > a:vimrc the vimrc filename saved in g:RUN_NAME list
 function! start#stop(vimrc) abort "{{{
     let l:rtp = module#less#rtp#import()
-    let l:pStoprc = l:rtp.MakeFull(l:rtp.MakePath($STARTHOME, 'stop'), l:name, '.vim')
+    let l:pStoprc = l:rtp.MakeFull(l:rtp.MakePath($STARTHOME, 'stop'), a:vimrc, '.vim')
     if filereadable(l:pStoprc)
         execute 'source ' . l:pStoprc
         echomsg ' stop vimrc: ' . l:pStoprc
