@@ -35,6 +35,7 @@
     - [Stay along with SpaceVim](#stay-along-with-spacevim)
     - [Use other plugin manager](#use-other-plugin-manager)
 - [Contact and Bug Report](#contact-and-bug-report)
+- [Change Log](#change-log)
 
 ## Requirement
 + unix/linux system that support symbol link
@@ -668,3 +669,8 @@ other than `:packadd` in `ex -s`, while it seems more silly to use `ex -s`
 other than `vim` for some people.
 
 ## Contact and Bug Report
+
+## Change Log
+
++ 2017-04-05: handle FuncUndefined event, lazy load some plugin by sharp function.
++ 2017-04-01: finish basic structure.

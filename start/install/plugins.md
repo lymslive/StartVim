@@ -33,6 +33,7 @@ Other lines or words are just ignored.
 + https://github.com/Shougo/neoinclude.vim
 + https://github.com/Shougo/neosnippet
 + https://github.com/Shougo/neosnippet-snippets
++ https://github.com/Shougo/vimfiler.vim
 
 ## Various 五花八门
 + https://github.com/tpope/vim-surround

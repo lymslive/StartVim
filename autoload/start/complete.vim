@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: custome complete for command
 " Create: 2017-03-23
-" Modify: 2017-03-27
+" Modify: 2017-04-05
 
 " completion for start/*.vim
 function! start#complete#vimrc(A, L, P) abort "{{{

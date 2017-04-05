@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: Primary Command for StartVim
 " Create: 2017-03-24
-" Modify: 2017-03-30
+" Modify: 2017-04-05
 
 if exists('s:load') && !exists('g:DEBUG')
     finish
@@ -17,7 +17,7 @@ command! -nargs=1 -complete=customlist,start#complete#stoprc
 
 command! RtpShow call start#rtp()
 command! -nargs=? -complete=dir
-            \ RtpAdd call start#rtpadd(<f-args>)
+            \ RtpAdd call start#rtpadd(<q-args>, '!' == '<bang>')
 
 command! -nargs=1 -complete=customlist,start#complete#pack
             \ PackAdd call start#packadd(<f-args>)
@@ -33,3 +33,7 @@ command! -nargs=1 -complete=customlist,start#complete#packall
 
 command! -nargs=* ECHO call start#vex#echo(eval(<q-args>))
 command! -nargs=* Echo call start#vex#echo(eval(<q-args>))
+
+augroup StartVim
+    autocmd FuncUndefined *#* call start#event#FuncUndefined(expand('<afile>'))
+augroup END

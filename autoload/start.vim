@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: start vim
 " Create: 2017-03-23
-" Modify: 2017-04-01
+" Modify: 2017-04-05
 
 " run: start a more run, find vimrc by this name
 " > a:1, stop old vimrc
@@ -47,6 +47,8 @@ function! start#stop(vimrc) abort "{{{
 endfunction "}}}
 
 " rtpadd: add a path(default pwd) to rtp, fix upto autoload/
+" > a:1, directory that will add to rtp
+" > a:2, force add even has no autoload/ and source plugin/*.vim
 function! start#rtpadd(...) abort "{{{
     if a:0 == 0 || empty(a:1)
         let l:pDirectory = expand('%:p:h')
@@ -54,15 +56,34 @@ function! start#rtpadd(...) abort "{{{
         let l:pDirectory = a:1
     endif
 
+    let l:bForce = get(a:000, 1, 0)
+
     let l:rtp = module#less#rtp#import()
-    let l:pDirectory = l:rtp.FixrtpDir(l:pDirectory)
-    if !empty(l:pDirectory)
-        execute 'set rtp+=' . l:pDirectory
-        return 0
-    else
+    let l:pDirRtp = l:rtp.FixrtpDir(l:pDirectory)
+
+    if l:bForce && empty(l:pDirRtp)
+        let l:pDirRtp = l:pDirectory
+    endif
+    
+    if empty(l:pDirRtp)
         echoerr 'refuse to add rpt as no autoload subdirectory'
         return -1
     endif
+
+    " only add to rtp
+    execute 'set rtp+=' . l:pDirRtp
+    if !l:bForce
+        return 0
+    endif
+
+    " also source plugin/
+    let l:sGlob = l:rtp.MakePath(l:pDirRtp, 'plugin', '*.vim')
+    let l:lpFile = glob(l:sGlob, '', 1)
+    for l:pFile in l:lpFile
+        execute 'source ' . l:pFile
+    endfor
+
+    return 0
 endfunction "}}}
 
 " rtp: display rtp list
@@ -141,13 +162,7 @@ function! s:_packadd(plugin) abort "{{{
         if stridx(&rtp, l:pDirectory) != -1
             echomsg 'plugin already in rtp: ' . a:plugin
         else
-            execute 'set rtp+=' . l:pDirectory
-            let l:rtp = module#less#rtp#import()
-            let l:sGlob = l:rtp.MakePath(l:pDirectory, 'plugin', '*.vim')
-            let l:lpFile = glob(l:sGlob, '', 1)
-            for l:pFile in l:lpFile
-                execute 'source ' . l:pFile
-            endfor
+            call start#rtpadd(l:pDirectory, 1)
         endif
         return 0
     else
