@@ -95,6 +95,7 @@ $ ls -l `which ex`
 If it is not the case, make `ex` link to (the appropriate path to) `vim`.
 
 4. backup you own vimrc as self.vim, and use main.vim instead
+
 If you original vimr is ~/.vimrc
 ```bash
 $ cd ~
@@ -197,7 +198,7 @@ $ rm -rf start/
   `~/.vim/start/self.vim` file. It is used as the most common vimrc start from
   native `vim`.
 * When you want to use vim in a different work case, frist creat a symbol link
-  name in `~/bin`, and create a `.vim` file with the "same" or "like" name.
+  name in `~/bin`, and create a `.vim` file with the "same" or "similar" name.
 * When work on vim, use `:StartVim` to source more vimrc, use `:packadd` or
   `:PackAdd` to load more plugin. Command completion is available.
 * Make use of each sub-directory of `~/.vim`, manage the `*.vim` files
@@ -217,7 +218,7 @@ $ ln -s `which vim` ~/bin/vim-foo
 ```
 
 Then create a vimrc named "foo.vim" in `~/.vim/start`. You can source other `.vim`
-files when edit new vimrc. The files named begins with underscore `_*.vim` is
+files when edit new vimrc. The files named begining with underscore `_*.vim` is
 encouraged sourced by other vimrc, and are ignored when complete `:StartVim`.
 
 The vimrc name is not nessary excatly "foo.vim", search by "main.vim" in the
@@ -273,7 +274,7 @@ Your personal common vimrc "self.vim" may base on or some like "fulled.vim".
   can make it symbol link to that.
 
 Since the `start/` directory is copied to `~/.vim`, you can edit these files
-freely, or prefix a `self_` if you like.
+freely, or prefix a `self-` if you like.
 
 You *must* create each symbol link to vim if you want to use any of these
 vimrc. Because the location of vim may differ to each other, you should make
@@ -424,7 +425,7 @@ However, the lower vim version, say vim7, can also use this StartVim, with
 attention to following:
 
 * `:packadd` cannot use, while `:PackAdd` can still use.
-* explictly add plugin path to `&rtp` vimrc. 
+* explictly add plugin path to `&rtp` in vimrc. 
   For example: `set rtp+=$PACKHOME/lymslive/opt/StartVim`
 
 ### Make full use of personal ~/.vim
@@ -462,10 +463,11 @@ agian:
   to source another vim file named `~/.vim/star/stop/{vimrc}.vim`
 
 * `:RtpShow` display the `&rtp` in a neater list way.
-* `:RtpAdd [path]` add the path (default current directory) to `&rtp`, the
+* `:RtpAdd[!] [path]` add the path (default current directory) to `&rtp`, the
   path should be fit as a runtimepath, that has a "autoload" sub-directory or
   it already under any "autoload" sub-directory, then it will fixed up to the
-  parent path of the "autoload" directory.
+  parent path of the "autoload" directory. If ! suffixed, don't check
+  "autoload" sub-directory, force to add to `&rtp`, and source `plugin/*.vim`.
 
 * `:PackAdd {plugin}` load a plugin and it's specail config as well
 * `:PackSub {plugin}` unload a plugin and it's cleaner script.
@@ -476,7 +478,7 @@ agian:
 
 * `:ECHO {expr}` or `:Echo {expr}` like builtin `:echo` but append to current
   buffer. It is useful in silent ex mode script, and want to print some output
-  to stdout.
+  to stdout. When not used in `ex` mode, just do `:echo` as do.
 
 ### Insight to main.vim
 
@@ -493,7 +495,7 @@ And defines some global variable:
 
 * `g:START_NAME` is the start name, usually equal to `v:progname`.
 * `g:RUN_NAME` is a list of vimrc filename that have sourced.
-* `g:PLUGIN_LIST` is the plugin list file path, default `$STARTHOME/gplugins.md`
+* `g:PLUGIN_LIST` is the plugin list file path, default `$STARTHOME/install/plugins.md`
 
 When the start (linked vim) name is in form of `vim-*`, the prefix `vim-` is
 stripped, then save the normalized name in variable `g:START_NAME`.
@@ -644,7 +646,7 @@ If you are lazy to config vimrc youself, SpaceVim maybe a good choice:
 https://github.com/SpaceVim/SpaceVim
 
 If you want to try to use SpaceVim as along with vimrc of yourself, you can
-first "uninstall" SapceVim, but SpaceVim not really removed, it still stayed
+first "uninstall" SapceVim, but SpaceVim is not really removed, it still stayed
 in `~/.SpaceVim`, and `~/.SpaceVim.d` if you have create it. Then create a 
 simple bash script call `spvim` in `~/bin` as following:
 ```bash
