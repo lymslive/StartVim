@@ -2,11 +2,11 @@
 " Author: lymslive
 " Description: auto event handle
 " Create: 2017-04-05
-" Modify: 2017-04-05
+" Modify: 2017-04-06
 
 " FuncUndefined: 
 " autoload sharp function even not in rpt now but in some pack
-" source the vim file and add the plugin root to rtp
+" add the plugin root to rtp, then let vim builtin lookup it further
 function! start#event#FuncUndefined(name) abort "{{{
     if a:name =~# '^start#' || a:name =~# '^module#' || has('vim_starting')
         return 0
@@ -25,8 +25,8 @@ function! start#event#FuncUndefined(name) abort "{{{
     for l:pDirectory in l:lpDirectory
         let l:pPath = l:rtp.MakePath(l:pDirectory, 'autoload', l:pFile)
         if filereadable(l:pPath)
-            execute 'source ' . l:pPath
-            " execute 'set rtp+=' . l:pDirectory
+            " directly source this file will cause error massege
+            " execute 'source ' . l:pPath
             return start#rtpadd(l:pDirectory, 1)
         endif
     endfor
