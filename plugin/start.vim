@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: Primary Command for StartVim
 " Create: 2017-03-24
-" Modify: 2017-04-05
+" Modify: 2017-07-25
 
 if exists('s:load') && !exists('g:DEBUG')
     finish
@@ -34,6 +34,8 @@ command! -nargs=1 -complete=customlist,start#complete#packall
 command! -nargs=* ECHO call start#vex#echo(eval(<q-args>))
 command! -nargs=* Echo call start#vex#echo(eval(<q-args>))
 
+finish
+" this event seems have bug in vim8
 augroup StartVim
     autocmd FuncUndefined *#* call start#event#FuncUndefined(expand('<afile>'))
 augroup END
