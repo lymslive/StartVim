@@ -33,6 +33,7 @@
 - [Various](#various)
     - [My ~/.vim example](#my-vim-example)
     - [Stay along with SpaceVim](#stay-along-with-spacevim)
+    - [Stay along with neovim](#stay-along-with-neovim)
     - [Use other plugin manager](#use-other-plugin-manager)
 - [Contact and Bug Report](#contact-and-bug-report)
 - [Change Log](#change-log)
@@ -658,6 +659,25 @@ Then you can use `spvim` to start the extream heavy SpaceVim, while use `vim`
 still start you lighter vimrc. If you also follow this "StartVim", `vi` and
 `ex` etc. are all available, that start vim in a complete different way.
 
+### Stay along With neovim
+
+If you will try [neovim](https://github.com/neovim/neovim), and want to share
+with your vim config, for lazy reason or seeing how compatible between them,
+then you can do something like:
+```
+ln -s ~/.vim ~/.config/nvim
+cd ~/.vim
+ln -s start/main.vim init.vim
+cd start
+ln -s default.vim nvim.vim
+```
+
+Then when you start `nvim` (after installed), the vimrc named `nvim.vim` will
+be sourced.
+
+Ofcouse if you prefer neovim to vim, or just want separate from it, you can
+break the soft link for `~/.config/nvim` and `~/.config/nvim/init.vim`.
+
 ### Use other plugin manager
 
 You can use any other plugin manager as normal plugin. You can even use more
@@ -674,5 +694,6 @@ other than `vim` for some people.
 
 ## Change Log
 
++ 2017-06-14: remark to share with neovim, with several soft links.
 + 2017-04-05: handle FuncUndefined event, lazy load some plugin by sharp function.
 + 2017-04-01: finish basic structure.
