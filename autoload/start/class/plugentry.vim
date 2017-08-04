@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: a plugin record in plugin file
 " Create: 2017-03-28
-" Modify: 2017-03-31
+" Modify: 2017-08-04
 
 "LOAD:
 if exists('s:load') && !exists('g:DEBUG')
@@ -34,8 +34,7 @@ function! start#class#plugentry#new(...) abort "{{{
     if l:line !~? s:line_pattern
         return {}
     endif
-    let l:obj = copy(s:class)
-    call l:obj._new_(a:000, 1)
+    let l:obj = class#new(s:class, a:000)
     return l:obj
 endfunction "}}}
 " CTOR:
@@ -62,7 +61,7 @@ endfunction "}}}
 
 " ISOBJECT:
 function! start#class#plugentry#isobject(that) abort "{{{
-    return s:class._isobject_(a:that)
+    return class#isobject(s:class, a:that)
 endfunction "}}}
 
 " NeedInstall: 
